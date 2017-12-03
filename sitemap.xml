@@ -9,4 +9,20 @@
     </url>
     
 
+    
+    <url>
+     <loc>/design/</loc>
+     <lastmod>2017-12-03</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>/api/</loc>
+     <lastmod>2017-12-03</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
 </urlset>

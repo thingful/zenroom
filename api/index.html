@@ -6,45 +6,48 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Secure language design patterns for use in blockchain smart-contracts: restricted execution environments for deterministic, provable and distributed computing of algorithms.">
+    
     <meta name="author" content="Jaromil, DECODE project">
     
-    <link rel="shortcut icon" href="./img/favicon.ico">
+    <link rel="shortcut icon" href="../img/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-    <title>LUA Zenroom - blockchain language research in DECODE project</title>
-    <link href="./css/bootstrap-3.3.7.min.css" rel="stylesheet">
-    <link href="./css/font-awesome-4.7.0.css" rel="stylesheet">
-    <link href="./css/base.css" rel="stylesheet">
-    <link rel="stylesheet" href="./css/highlight.css">
+    <title>API - LUA Zenroom - blockchain language research in DECODE project</title>
+    <link href="../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.css">
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
 
-    <script src="./js/jquery-3.2.1.min.js"></script>
-    <script src="./js/bootstrap-3.3.7.min.js"></script>
-    <script src="./js/highlight.pack.js"></script>
-    
-      <script src="./js/elasticlunr.min.js"></script>
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
     
     <base target="_top">
     <script>
-      var base_url = '.';
-      var is_top_frame = (window === window.parent);
+      var base_url = '..';
+      var is_top_frame = false;
         
         var pageToc = [
-          {title: "LUA Zenroom - DECODE project", url: "#lua-zenroom-decode-project", children: [
-              {title: "Build instructions", url: "#build-instructions" },
-              {title: "Crypto functionalities", url: "#crypto-functionalities" },
-              {title: "Acknowledgements", url: "#acknowledgements" },
+          {title: "Application protocol interface", url: "#application-protocol-interface", children: [
+          ]},
+          {title: "Crypto API", url: "#crypto-api", children: [
+              {title: "Random", url: "#random" },
+              {title: "Authenticated encryption", url: "#authenticated-encryption" },
+              {title: "Curve25519-based key exchange", url: "#curve25519-based-key-exchange" },
+              {title: "Blake2b cryptographic hash", url: "#blake2b-cryptographic-hash" },
+              {title: "Ed25519 signature", url: "#ed25519-signature" },
+              {title: "Argon2i password derivation", url: "#argon2i-password-derivation" },
           ]},
         ];
 
     </script>
-    <script src="./js/base.js"></script>
-      <script src="./search/require.js"></script>
-      <script src="./search/search.js"></script> 
+    <script src="../js/base.js"></script>
+      <script src="../search/require.js"></script>
+      <script src="../search/search.js"></script> 
 </head>
 
 <body>
@@ -52,84 +55,17 @@
 if (is_top_frame) { $('body').addClass('wm-top-page'); }
 </script>
 
-<nav class="navbar wm-page-top-frame">
-  <div class="container-fluid wm-top-container">
-    
-    <div class="wm-top-tool pull-right wm-vcenter">
-      <form class="dropdown wm-vcentered" id="wm-search-form" action="./search.html">
-        
-        <button id="wm-search-show" class="btn btn-sm btn-default" type="submit"
-          ><i class="fa fa-search" aria-hidden="true"></i></button>
 
-        <div class="input-group input-group-sm wm-top-search">
-          <input type="text" name="q" class="form-control" id="mkdocs-search-query" placeholder="Search">
-          <span class="input-group-btn" role="search">
-            
-            <button class="btn btn-default dropdown-toggle collapse" data-toggle="dropdown" type="button"><span class="caret"></span></button>
-            <ul id="mkdocs-search-results" class="dropdown-menu dropdown-menu-right"></ul>
-            <button id="wm-search-go" class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-          </span>
-        </div>
-      </form>
-    </div>
-
-    
-    <div class="wm-top-tool wm-vcenter pull-right wm-small-left">
-      <button id="wm-toc-button" type="button" class="btn btn-sm btn-default wm-vcentered"><i class="fa fa-th-list" aria-hidden="true"></i></button>
-    </div>
-
-    
-    
-
-    
-    <a href="" class="wm-top-brand wm-top-link wm-vcenter">
-      
-      <div class="wm-top-title">
-        LUA Zenroom - blockchain language research in DECODE project<br>
-        
-      </div>
-    </a>
-  </div>
-</nav>
-
-  <div id="main-content" class="wm-page-top-frame">
-    
-<nav class="wm-toc-pane">
-  
-    <ul class="wm-toctree wm-toc-repo">
-      <li class="wm-toc-li wm-toc-lev1">
-      <a class="wm-article-link wm-toc-text" href="https://github.com/DECODEproject/lua-zenroom/">
-        <i class="fa fa-github"></i>
-        GitHub
-      </a>
-      </li>
-    </ul>
-  <ul class="wm-toctree">
-        <li class="wm-toc-li wm-toc-lev1 "><a href="." class="wm-article-link wm-toc-text">Introduction</a>
-</li>
-        <li class="wm-toc-li wm-toc-lev1 "><a href="design/" class="wm-article-link wm-toc-text">Design principles</a>
-</li>
-        <li class="wm-toc-li wm-toc-lev1 "><a href="api/" class="wm-article-link wm-toc-text">API</a>
-</li>
-  </ul>
-</nav>
-
-    <div class="wm-content-pane">
-      <iframe class="wm-article" name="article"></iframe>
-    </div>
-  </div>
 
 <div class="container-fluid wm-page-content">
     
 
   <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
     
-    <div class="wm-article-nav pull-right">
-      <a href="design/" class="btn btn-xs btn-default pull-right">
-        Next
-        <i class="fa fa-chevron-right" aria-hidden="true"></i>
-      </a>
-      <a href="design/" class="btn btn-xs btn-link">
+    <div class="wm-article-nav">
+      <a href="../design/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../design/" class="btn btn-xs btn-link">
         Design principles
       </a>
     </div>
@@ -138,28 +74,7 @@ if (is_top_frame) { $('body').addClass('wm-top-page'); }
 
     
 
-    <h1 id="lua-zenroom-decode-project">LUA Zenroom - DECODE project</h1>
-<p>Restricted execution environment for LUA based blockchain language
-implementation. For more information see <a href="./docs">docs</a>.</p>
-<p>The binary produced is fully static and designed to be executed as a new process for each new script.</p>
-<h2 id="build-instructions">Build instructions</h2>
-<p>If you have cloned this source code from git, then do:</p>
-<pre><code>git submodule update --init --recursive
-</code></pre>
-
-<p>Then first build the static build environment (musl-libc): this needs to be done only once at the beginning of new builds:</p>
-<pre><code>make bootstrap
-</code></pre>
-
-<p>Then at last run the build command:</p>
-<pre><code>make
-</code></pre>
-
-<p>To run tests:</p>
-<pre><code>make check
-</code></pre>
-
-<h2 id="crypto-functionalities">Crypto functionalities</h2>
+    <h1 id="application-protocol-interface">Application protocol interface</h1>
 <p>This interpreter includes statically the following cryptographic
 primitives, extracted from the NaCl library and included via the
 monocypher/luanacha implementation:</p>
@@ -170,15 +85,15 @@ monocypher/luanacha implementation:</p>
 <li>Ed25519-based signature function using Blake2b hash instead of sha512,</li>
 <li>Argon2i, a modern key derivation function based on Blake2b. Like scrypt, it is designed to be expensive in both CPU and memory.</li>
 </ul>
-<h3 id="crypto-api">Crypto API</h3>
+<h1 id="crypto-api">Crypto API</h1>
 <p>Here a summary of calls available. This API is subject to change and more functions will be added according to requirements for the implementation of attribute based cryptographi in DECODE.</p>
-<pre><code>randombytes(n)
+<h2 id="random">Random</h2>
+<pre><code class="text">randombytes(n)
     return a string containing n random bytes
+</code></pre>
 
-
---- Authenticated encryption
-
-lock(key, nonce, plain [, prefix]) =&gt; crypted
+<h2 id="authenticated-encryption">Authenticated encryption</h2>
+<pre><code class="text">lock(key, nonce, plain [, prefix]) =&gt; crypted
     authenticated encryption using Xchacha20 and a Poly1305 MAC
     key must be a 32-byte string
     nonce must be a 24-byte string
@@ -208,11 +123,10 @@ unlock(key, nonce, crypted [, offset]) =&gt; plain
 
     Note: the responsibility of using matching prefix and offset belongs 
     to the application.
+</code></pre>
 
-
---- Curve25519-based key exchange
-
-public_key(sk) =&gt; pk
+<h2 id="curve25519-based-key-exchange">Curve25519-based key exchange</h2>
+<pre><code class="text">public_key(sk) =&gt; pk
     return the public key associated to a curve25519 secret key
     sk is the secret key as a 32-byte string
     pk is the associated public key as a 32-byte string
@@ -234,11 +148,10 @@ key_exchange(sk, pk) =&gt; k
     pk is the public key of the other party 
     (&quot;their public key&quot;).
     sk, pk and k are 32-byte strings
+</code></pre>
 
-
---- Blake2b cryptographic hash
-
-blake2b_init([digest_size [, key]]) =&gt; ctx
+<h2 id="blake2b-cryptographic-hash">Blake2b cryptographic hash</h2>
+<pre><code class="text">blake2b_init([digest_size [, key]]) =&gt; ctx
     initialize and return a blake2b context object
     digest_size is the optional length of the expected digest. If provided,
     it must be an integer between 1 and 64. It defaults to 64.
@@ -263,11 +176,10 @@ blake2b(text) =&gt; digest
     Returns a 64-byte digest.
     This is a convenience function which combines the init(), 
     update() and final() functions above.
+</code></pre>
 
-
---- Ed25519 signature
-
-sign_public_key(sk) =&gt; pk
+<h2 id="ed25519-signature">Ed25519 signature</h2>
+<pre><code class="text">sign_public_key(sk) =&gt; pk
     return the public key associated to a secret key
     sk is the secret key as a 32-byte string
     pk is the associated public key as a 32-byte string
@@ -297,11 +209,10 @@ check(sig, pk, text) =&gt; is_valid
     Note: curve25519 key pairs (generated with keypair())
     cannot be used for ed25519 signature. The signature key pairs 
     must be generated with sign_keypair().
+</code></pre>
 
-
---- Argon2i password derivation 
-
-argon2i(pw, salt, nkb, niter) =&gt; k
+<h2 id="argon2i-password-derivation">Argon2i password derivation</h2>
+<pre><code class="text">argon2i(pw, salt, nkb, niter) =&gt; k
     compute a key given a password and some salt
     This is a password key derivation function similar to scrypt.
     It is intended to make derivation expensive in both CPU and memory.
@@ -316,40 +227,15 @@ argon2i(pw, salt, nkb, niter) =&gt; k
 
 </code></pre>
 
-<h2 id="acknowledgements">Acknowledgements</h2>
-<p>Copyright (C) 2017 by Dyne.org foundation, Amsterdam</p>
-<p>Designed, written and maintained by Denis Roio <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#106;&#97;&#114;&#111;&#109;&#105;&#108;&#64;&#100;&#121;&#110;&#101;&#46;&#111;&#114;&#103;">&#106;&#97;&#114;&#111;&#109;&#105;&#108;&#64;&#100;&#121;&#110;&#101;&#46;&#111;&#114;&#103;</a></p>
-<p>Includes code by:</p>
-<ul>
-<li>Mozilla foundation (lua_sandbox)</li>
-<li>Rich Felker, et al (musl-libc)</li>
-<li>IETF Trust (blake2b)</li>
-<li>Daniel J. Bernstein, Tanja Lange and Peter Schwabe (NaCl)</li>
-<li>Loup Vaillant (monocypher)</li>
-<li>Phil Leblanc (luanacha)</li>
-</ul>
-<p>This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as
-published by the Free Software Foundation, either version 3 of the
-License, or (at your option) any later version.</p>
-<p>This program is distributed in the hope that it will be useful, but
-WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-General Public License for more details.</p>
-<p>You should have received a copy of the GNU General Public License
-along with this program.  If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.</p>
-
   <br>
     
 
   <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
     
-    <div class="wm-article-nav pull-right">
-      <a href="design/" class="btn btn-xs btn-default pull-right">
-        Next
-        <i class="fa fa-chevron-right" aria-hidden="true"></i>
-      </a>
-      <a href="design/" class="btn btn-xs btn-link">
+    <div class="wm-article-nav">
+      <a href="../design/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../design/" class="btn btn-xs btn-link">
         Design principles
       </a>
     </div>
@@ -365,7 +251,3 @@ along with this program.  If not, see <a href="http://www.gnu.org/licenses/">htt
 
 </body>
 </html>
-<!--
-MkDocs version : 0.17.2
-Build Date UTC : 2017-12-03 18:34:05
--->
