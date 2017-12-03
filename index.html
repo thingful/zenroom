@@ -11,7 +11,7 @@
     
     <link rel="shortcut icon" href="./img/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-    <title>DECODE language</title>
+    <title>LUA Zenroom - blockchain language research in DECODE project</title>
     <link href="./css/bootstrap-3.3.7.min.css" rel="stylesheet">
     <link href="./css/font-awesome-4.7.0.css" rel="stylesheet">
     <link href="./css/base.css" rel="stylesheet">
@@ -98,7 +98,7 @@ if (is_top_frame) { $('body').addClass('wm-top-page'); }
     <a href="" class="wm-top-brand wm-top-link wm-vcenter">
       
       <div class="wm-top-title">
-        DECODE language<br>
+        LUA Zenroom - blockchain language research in DECODE project<br>
         
       </div>
     </a>
@@ -111,8 +111,9 @@ if (is_top_frame) { $('body').addClass('wm-top-page'); }
   
     <ul class="wm-toctree wm-toc-repo">
       <li class="wm-toc-li wm-toc-lev1">
-      <a class="wm-article-link wm-toc-text" href="https://gogs.dyne.org/decode/decode-lang">
-        Gogs
+      <a class="wm-article-link wm-toc-text" href="https://github.com/DECODEproject/lua-zenroom/">
+        <i class="fa fa-github"></i>
+        GitHub
       </a>
       </li>
     </ul>
@@ -146,7 +147,7 @@ if (is_top_frame) { $('body').addClass('wm-top-page'); }
 <p>a set of technical recommendations for the development of smart-rules in DECODE</p>
 </li>
 </ol>
-<p>This document is not speculative, but is companion to an actual implementation being developed during the course of DECODE's project: the "<a href="https://github.com/decodeproject/lua-zenroom">zenroom</a>".</p>
+<p>This document is not speculative, but is companion to an actual implementation being developed during the course of DECODE's project: the <a href="https://decodeproject.github.io/lua-zenroom/">"zenroom" (link)</a>.</p>
 <h2 id="a-new-memory-model">A new memory model</h2>
 <p>In computing science the concepts of HEAP and STACK are well known and represent the different areas of memory in which a single computer can store code, address it while executing it and store data on which the code can read and write. With the advent of "virtual machines" (abstract computing machines like JVM or BEAM, not virtualised operating systems) the implementation of logic behind the HEAP and STACK became more abstract and not anymore bound to a specific hardware architecture, therefore leaving more space for the portability of code and creative memory management practices (like garbage collection). It is also thanks to the use of virtual machines that high level languages became closer to the way humans think, rather than the way machines work, benefitting creativity, awareness and auditability [@mccartney2002rethinking]. This is an important vector of innovation for the language implementation in DECODE, since it is desirable for this project to implement a language that is close to the way humans think.</p>
 <p>With the advent of distributed computing technology and blockchain implementations there is a growing necessity to conceive the HEAP and STACK differently [@DBLP:conf/ipps/PizkaR02], mostly because there are many more different conditions for memory bound to its persistence, read/write speed, mutability, distribution etc.</p>
@@ -311,5 +312,5 @@ https://github.com/RealTimeWeb/blockpy
 </html>
 <!--
 MkDocs version : 0.17.2
-Build Date UTC : 2017-12-03 17:04:07
+Build Date UTC : 2017-12-03 17:34:42
 -->
