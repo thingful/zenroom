@@ -34,9 +34,10 @@
       var is_top_frame = (window === window.parent);
         
         var pageToc = [
-          {title: "LUA Zenroom - DECODE project", url: "#lua-zenroom-decode-project", children: [
+          {title: "Zenroom - DECODE project", url: "#zenroom-decode-project", children: [
               {title: "Build instructions", url: "#build-instructions" },
               {title: "Crypto functionalities", url: "#crypto-functionalities" },
+              {title: "Operating instructions", url: "#operating-instructions" },
               {title: "Acknowledgements", url: "#acknowledgements" },
           ]},
         ];
@@ -138,29 +139,54 @@ if (is_top_frame) { $('body').addClass('wm-top-page'); }
 
     
 
-    <h1 id="lua-zenroom-decode-project">LUA Zenroom - DECODE project</h1>
-<p>Restricted execution environment for LUA based blockchain language
-implementation. For more information see <a href="./docs">docs</a>.</p>
-<p>The binary produced is fully static and designed to be executed as a new process for each new script.</p>
+    <h1 id="zenroom-decode-project">Zenroom - DECODE project</h1>
+<p><a href="http://www.dyne.org"><img alt="software by Dyne.org" src="https://www.dyne.org/wp-content/uploads/2015/12/software_by_dyne.png" /></a></p>
+<p><a href="https://travis-ci.org/DECODEproject/zenroom"><img alt="Build Status" src="https://travis-ci.org/DECODEproject/zenroom.svg?branch=master" /></a></p>
+<p><strong>Restricted execution environment</strong> for cryptographic operations in a <strong>Turing-incomplete language</strong> based on LUA syntax and coarse-grained control of number of operations and memory used.</p>
+<p>Zenroom follows a minimal design with security and portability in mind: it can be used in <strong>untrusted distributed computing</strong>, for instance in distributed ledger or <strong>blockchain smart contracts</strong>.</p>
+<p>Zenroom compiles to fully static native binaries for embedded use, but also to javascript or webassembly modules for client-side use for instance in mobile applications.</p>
+<p>With Zenroom is easy to write portable software using end-to-end client-side encryption using various classic and advanced cryptographic primitives to manage asymmetric keys, key derivation, hashing and signing functionalities.</p>
+<p>This README documentation is operational. For more information on the purpose and design of this software see:</p>
+<ul>
+<li>The DECODE Project website: https://decodeproject.eu</li>
+<li>The Zenroom whitepaper and API documentation: https://decodeproject.github.io/zenroom</li>
+</ul>
+<p>This project is receiving funding from the European Union’s Horizon 2020 research and innovation programme under grant agreement nr. 732546 (DECODEproject).</p>
 <h2 id="build-instructions">Build instructions</h2>
+<p>Pre-built binaries are available here https://sdk.dyne.org:4443/view/decode/ - this section is optional for those who want to build this software from source.</p>
+<p>The Zenroom compiles the same base sourcecode to 3 different POSIX
+compatible ELF binary targets. They are:</p>
+<ol>
+<li>Shared executable linked to a system-wide libc, libm and libpthread (mostly for debugging)</li>
+<li>Fully static executable linked to musl-libc (to be operated on embedded platforms)</li>
+<li>Javascript module to be operated from a browser or NodeJS (for web based operations)</li>
+</ol>
 <p>If you have cloned this source code from git, then do:</p>
 <pre><code>git submodule update --init --recursive
 </code></pre>
 
-<p>Then first build the static build environment (musl-libc): this needs to be done only once at the beginning of new builds:</p>
-<pre><code>make bootstrap
-</code></pre>
-
-<p>Then at last run the build command:</p>
-<pre><code>make
+<p>Then first build the shared executable environment:</p>
+<pre><code>make shared
 </code></pre>
 
 <p>To run tests:</p>
-<pre><code>make check
+<pre><code>make check-shared
+</code></pre>
+
+<p>To build the static environment:</p>
+<pre><code>make bootstrap
+make static
+make check-static
+</code></pre>
+
+<p>For the Javascript and WebAssembly modules the Zenroom provides various targets provided by emscripten which must be installed and loaded in the environment according to the emsdk's instructions :</p>
+<pre><code>make js
+make wasm
+make html
 </code></pre>
 
 <h2 id="crypto-functionalities">Crypto functionalities</h2>
-<p>This interpreter includes statically the following cryptographic primitives:</p>
+<p>The Zenroom language interpreter includes statically the following cryptographic primitives:</p>
 <ul>
 <li><strong>Norx</strong> authenticated encryption with additional data (AEAD) - this is the default 64-4-1 variant (256-bit key and nonce, 4 rounds)</li>
 <li><strong>Blake2b</strong> cryptographic hash function</li>
@@ -172,13 +198,63 @@ scrypt, it is designed to be expensive in both CPU and memory.</li>
 <p>Legacy cryptographic functions include <strong>md5</strong>, and <strong>rc4</strong>.</p>
 <p>Endoding and decoding functions are provided for <strong>base64</strong> and <strong>base58</strong> (for base58, the BitCoin encoding alphabet is used).</p>
 <p>Compression functions based on <strong>BriefLZ</strong> are also included.</p>
+<p>Inclusion of classic NIST compliant <strong>RSA</strong> and <strong>DSA</strong> algorithms is in progress.</p>
+<h2 id="operating-instructions">Operating instructions</h2>
+<p>This software is work in progress and this section will be extended in the near future. Scripts found in the test/ directory provide good examples to start from.</p>
+<p>From <strong>command-line</strong> the Zenroom is operated passing files as arguments:</p>
+<pre><code>Usage: zenroom [-c config] [-a arguments] script.lua
+</code></pre>
+
+<p>From <strong>javascript</strong> the function <code>zenroom_exec()</code> is exposed with four arguments: three strings and one number from 1 to 3 indicating the verbosity of output on the console:</p>
+<pre><code>int zenroom_exec(char *script, char *config, char *arguments, int verbosity)
+</code></pre>
+
+<p>The contents of the three strings cannot exceed 100k in size and are of different types:</p>
+<ul>
+<li><code>script</code> is a parsable LUA script, for example:</li>
+</ul>
+<pre><code class="lua">t = &quot;The quick brown fox jumps over the lazy dog&quot;
+pk, sk = keygen_sign_ed25519() -- signature keypair
+sig = sign_ed25519(sk, pk, t)
+assert(#sig == 64)
+assert(check_ed25519(sig, pk, t))
+</code></pre>
+
+<ul>
+<li><code>config</code> is also a parsable LUA script declaring variables, for example:</li>
+</ul>
+<pre><code class="lua">memory_limit = 100000
+instruction_limit = 696969
+output_limit = 64*1024
+log_level = 7
+remove_entries = {
+    [''] = {'dofile','load', 'loadfile','newproxy'},
+    os = {'getenv','execute','exit','remove','rename',
+          'setlocale','tmpname'},
+    math = {'random', 'randomseed'}
+ }
+disable_modules = {io = 1}
+</code></pre>
+
+<ul>
+<li><code>arguments</code> is a simple json, flat to the 1st level, declaring key/value pair strings, for example:</li>
+</ul>
+<pre><code class="json">{
+    &quot;secret&quot;: &quot;The quick brown fox jumps over the lazy dog&quot;,
+    &quot;salt&quot;:   &quot;TKIpxzSJ1enTbnei&quot;,
+    &quot;key&quot;:    &quot;my symmetric password someone will guess one day&quot;
+}
+</code></pre>
+
+<p>All strings parsed in the arguments files will be available as pre-declared global variables to the script.</p>
 <h2 id="acknowledgements">Acknowledgements</h2>
-<p>Copyright (C) 2017 by Dyne.org foundation, Amsterdam</p>
+<p>Copyright (C) 2017-2018 by Dyne.org foundation, Amsterdam</p>
 <p>Designed, written and maintained by Denis Roio <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#106;&#97;&#114;&#111;&#109;&#105;&#108;&#64;&#100;&#121;&#110;&#101;&#46;&#111;&#114;&#103;">&#106;&#97;&#114;&#111;&#109;&#105;&#108;&#64;&#100;&#121;&#110;&#101;&#46;&#111;&#114;&#103;</a></p>
 <p>Includes code by:</p>
 <ul>
 <li>Mozilla foundation (lua_sandbox)</li>
 <li>Rich Felker, et al (musl-libc)</li>
+<li>Mike Scott and kealan McCusker (milagro)</li>
 <li>Phil Leblanc (luazen)</li>
 <li>Joergen Ibsen (brieflz)</li>
 <li>Loup Vaillant (blake2b, argon2i, ed/x25519)</li>
@@ -186,11 +262,11 @@ scrypt, it is designed to be expensive in both CPU and memory.</li>
 <li>Luiz Henrique de Figueiredo (base64)</li>
 <li>Luke Dashjr (base58)</li>
 <li>Cameron Rich (md5)</li>
+<li>Sergey Lyubka and Cesanta Software (frozen)</li>
 </ul>
 <p>This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as
-published by the Free Software Foundation, either version 3 of the
-License, or (at your option) any later version.</p>
+it under the terms of the GNU General Public License version 2 as
+published by the Free Software Foundation.</p>
 <p>This program is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
@@ -226,5 +302,5 @@ along with this program.  If not, see <a href="http://www.gnu.org/licenses/">htt
 </html>
 <!--
 MkDocs version : 0.17.2
-Build Date UTC : 2017-12-04 19:38:03
+Build Date UTC : 2018-02-18 09:45:09
 -->
