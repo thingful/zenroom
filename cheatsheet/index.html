@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="author" content="Jaromil, DECODE project">
+    
+    <link rel="shortcut icon" href="../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Cheatsheet - Zenroom - restricted execution crypto language</title>
+    <link href="../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '..';
+      var is_top_frame = false;
+        
+        var pageToc = [
+          {title: "Zenroom cheatsheet", url: "#zenroom-cheatsheet", children: [
+              {title: "V0.4", url: "#v04" },
+          ]},
+        ];
+
+    </script>
+    <script src="../js/base.js"></script>
+      <script src="../search/require.js"></script>
+      <script src="../search/search.js"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+
+
+<div class="container-fluid wm-page-content">
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../design/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../design/" class="btn btn-xs btn-link">
+        Design principles
+      </a>
+    </div>
+    
+    <div class="wm-article-nav">
+      <a href=".." class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href=".." class="btn btn-xs btn-link">
+        Introduction
+      </a>
+    </div>
+    
+  </div>
+
+    
+
+    <h1 id="zenroom-cheatsheet">Zenroom cheatsheet</h1>
+<h2 id="v04">V0.4</h2>
+<h3 id="symmetric-encryption">Symmetric Encryption</h3>
+<ul>
+<li>encrypt_norx args(key_32B,nonce_32B,message) return(encrypted_message)</li>
+<li>decrypt_norx args(key_32B,nonce_32B,message) return(encrypted_message)</li>
+</ul>
+<h3 id="asymmetric-key-session">Asymmetric Key Session</h3>
+<ul>
+<li>keygen_session_ return(secret_key,public_key)</li>
+<li>pubkey_session_ args(secret_key) return(public_key)</li>
+<li>exchange_session_ args(secret_key,public_key) return(session_key)</li>
+</ul>
+<h3 id="unique-hashing">Unique Hashing</h3>
+<ul>
+<li>hash_blake2b args(message) return(digest_64B)</li>
+<li>hash_init_blake2b args(len=64,key=nil) return(ctx)</li>
+<li>hash_update_ args(ctx,message)</li>
+<li>hash_final_ args(ctx) return(hash)</li>
+</ul>
+<h3 id="signing-and-checking">Signing and Checking</h3>
+<ul>
+<li>keygen_sign_ed25519 return(secret_key_32B,public_key_32B)</li>
+<li>pubkey_sign_ed25519 args(secret_key_32B) return(public_key_32B)</li>
+<li>sign_ed25519 args(secret_key_32B,public_key_32B,message) return(signature_64B)</li>
+<li>check_ed25519 args(signature_64B,public_key_32B,message) return(true|false)</li>
+</ul>
+<h3 id="key-derivation">Key Derivation</h3>
+<ul>
+<li>kdf_argon2i args(password,salt_16B,RAM_KB,iterations_10min) return(password_32B)</li>
+</ul>
+<h3 id="compression">Compression</h3>
+<ul>
+<li>compress_ args(string) return(compressed_string)</li>
+<li>decompress_ args(compressed_string) return(string)</li>
+</ul>
+<h3 id="string-decoding">String de/coding</h3>
+<ul>
+<li>decode_ args(encoded) return(message)</li>
+<li>encode_b64 args(message,linelen=72) return</li>
+<li>encode_b58 args(message&lt;256B) return(encoded)</li>
+</ul>
+
+  <br>
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav pull-right">
+      <a href="../design/" class="btn btn-xs btn-default pull-right">
+        Next
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </a>
+      <a href="../design/" class="btn btn-xs btn-link">
+        Design principles
+      </a>
+    </div>
+    
+    <div class="wm-article-nav">
+      <a href=".." class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href=".." class="btn btn-xs btn-link">
+        Introduction
+      </a>
+    </div>
+    
+  </div>
+
+    <br>
+</div>
+
+<footer class="col-md-12 wm-page-content">
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/gristlabs/mkdocs-windmill">Windmill</a> theme by Grist Labs.</p>
+</footer>
+
+</body>
+</html>
