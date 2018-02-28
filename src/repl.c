@@ -282,17 +282,40 @@ int repl_exec(lua_State* lua, const char *line) {
 	return 0;
 }
 
+// prompts in different states
+#define PREADY "zen> \0"
+#define PERROR "zen! \0"
+#define PNEXT "\0"
 void repl_loop(lsb_lua_sandbox *lsb) {
-	static const char *line;
+	const char *line;
+	size_t linelen;
+	char command[MAX_STRING];
+	unsigned int offset;
 	if(!lsb) return;
 	lua_State* L = lsb_get_lua(lsb);
 	if(!L) return;
-	char prompt[6] = "zen> \0";
+	char *prompt = PREADY;
+	command[0] = '\0';
+	offset = 0;
 	int ret;
 	while((line = linenoise(prompt)) != NULL) {
-		ret = repl_exec(L, line);
-		if(ret != 0) prompt[3]='!';
-		else prompt[3]='>';
+		if(line[0]=='\0') {
+			if(command[0] =='\0' || offset==0) continue;
+			command[offset+1]='\0';
+			ret = repl_exec(L, command);
+			command[0] = '\0'; offset = 0;
+			if(ret != 0) prompt=PERROR;
+			else prompt=PREADY;
+		} else {
+			linelen = strlen(line);
+			if(linelen>(MAX_STRING-offset)) {
+				error("Command string too long");
+				continue; }
+			strncpy(&command[offset],line,linelen);
+			offset+=linelen; command[offset] = '\0';
+			offset++;
+			prompt=PNEXT;
+		}
 		linenoiseFree((void *)line);
 	}
 	lua_gc(L, LUA_GCCOLLECT, 0);
