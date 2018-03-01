@@ -13,6 +13,7 @@ compiler:
 
 addons:
   artifacts:
+    s3_region: s3-eu-central-1
     working_dir: src
     paths:
       - zenroom-shared
