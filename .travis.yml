@@ -12,6 +12,10 @@ compiler:
   - gcc
 
 addons:
+  artifacts:
+    working_dir: src
+    paths:
+      - zenroom-shared
   apt:
     packages:
       - build-essential
