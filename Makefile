@@ -110,6 +110,12 @@ shared-lib: platform := linux
 shared-lib: patches lua53 milagro
 	CC=${gcc} CFLAGS="${cflags}" make -C src shared-lib
 
+static-lib: gcc := musl-gcc
+static-lib: cflags := -Os -static -Wall -std=gnu99 ${cflags_protection} -D'ARCH=\"MUSL\"' -D__MUSL__
+static-lib: ldflags := -static
+static-lib: patches lua53 milagro
+	CC=${gcc} CFLAGS="${cflags}" LDFLAGS="${ldflags}" make -C src static-lib
+
 osx: gcc := gcc
 osx: cflags := -O2 -fPIC ${cflags_protection} -D'ARCH=\"OSX\"'
 osx: ldflags := -lm

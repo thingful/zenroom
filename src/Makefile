@@ -78,6 +78,11 @@ shared-lib: LDADD+=   -lm
 shared-lib: ${SOURCES}
 	${CC} ${CFLAGS} ${SOURCES} -o libzenroom-${ARCH}-${VERSION}-${BRANCH}-${HASH}.so ${LDFLAGS} ${LDADD}
 
+static-lib: CFLAGS += -D LIBRARY
+static-lib: ${SOURCES}
+	${AR} rcs zenroom-x86_64.a `find . -name \*.o`
+
+
 win: CFLAGS +=  -O3 -Wall -Wextra -pedantic -std=gnu99
 win: LDFLAGS += -L/usr/x86_64-w64-mingw32/lib -static
 win: LDADD +=  -l:libm.a -l:libpthread.a -lssp
@@ -101,6 +106,7 @@ debug: clean ${SOURCES}
 clean:
 	rm -f *.o
 	rm -f *.so
+	rm -f *.a
 	rm -f zenroom-static
 	rm -f zenroom-shared
 	rm -f zenroom.js
