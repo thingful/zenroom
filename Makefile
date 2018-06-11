@@ -29,6 +29,10 @@ cflags := -O2 ${cflags_protection}
 musl := ${pwd}/build/musl
 platform := posix
 luasrc := ${pwd}/lib/lua53/src
+VERSION := $(shell cat VERSION)
+ARCH := $(shell uname -m)
+BRANCH := $(shell git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
+HASH := $(shell git rev-parse --short HEAD)
 
 # milagro settings
 rsa_bits := ""
@@ -112,9 +116,11 @@ shared-lib: patches lua53 milagro
 
 static-lib: gcc := musl-gcc
 static-lib: cflags := -Os -static -Wall -std=gnu99 ${cflags_protection} -D'ARCH=\"MUSL\"' -D__MUSL__
-static-lib: ldflags := -static
+static-lib: ldflags := -static -lm
+static-lib: platform := linux
 static-lib: patches lua53 milagro
-	CC=${gcc} CFLAGS="${cflags}" LDFLAGS="${ldflags}" make -C src static-lib
+	CC=${gcc} CFLAGS="${cflags}" LDFLAGS="${ldflags}" make -C src library
+	${AR} rcs libzenroom-${ARCH}-${VERSION}-${BRANCH}-${HASH}.a `find . -name \*.o`
 
 osx: gcc := gcc
 osx: cflags := -O2 -fPIC ${cflags_protection} -D'ARCH=\"OSX\"'

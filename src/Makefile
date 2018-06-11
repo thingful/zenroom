@@ -78,9 +78,10 @@ shared-lib: LDADD+=   -lm
 shared-lib: ${SOURCES}
 	${CC} ${CFLAGS} ${SOURCES} -o libzenroom-${ARCH}-${VERSION}-${BRANCH}-${HASH}.so ${LDFLAGS} ${LDADD}
 
-static-lib: CFLAGS += -D LIBRARY
-static-lib: ${SOURCES}
-	${AR} rcs zenroom-x86_64.a `find . -name \*.o`
+#static-lib: CFLAGS += -D LIBRARY
+#static-lib: LDADD  += /usr/lib/${ARCH}-linux-musl/libc.a
+#static-lib: ${SOURCES}
+#	${AR} rcs libzenroom-${ARCH}-${VERSION}-${BRANCH}-${HASH}.a `find . -name \*.o`
 
 
 win: CFLAGS +=  -O3 -Wall -Wextra -pedantic -std=gnu99
